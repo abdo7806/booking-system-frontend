@@ -1,23 +1,77 @@
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
+import LoginPage from './features/auth/LoginPage';
+import RegisterPage from './features/auth/RegisterPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import ProtectedRoute from "./components/ProtectedRoute";
+
+
+import StaffListPage from './features/staff/StaffList';
+import UserList from './features/user/UserList';
+
 
 function App() {
+ 
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" dir="rtl">
+
+          <BrowserRouter>
+ 
+      <Routes>
+
+             {/* صفحات عامة */}
+      <Route path="/" element={<LoginPage />} />
+
+<Route 
+  path="/admin/*" 
+  element={
+    <>
+ 
+      <Routes>
+        <Route
+          path="dashboard"
+          element={
+            <ProtectedRoute role="Admin">
+              <AdminDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="staff"
+          element={
+            <ProtectedRoute role="Admin">
+              <StaffListPage />
+            </ProtectedRoute>
+          }
+        />
+
+       <Route
+          path="users"
+          element={
+            <ProtectedRoute role="Admin">
+              <UserList/>
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </>
+  } 
+/>
+
+        <Route path="/dashboard" element={<h1>Client Dashboard</h1>} />
+        <Route path="/register" element={<RegisterPage/>} />
+              {/* صفحة غير مصرح */}
+      <Route path="/unauthorized" element={<h2>غير مصرح لك بالدخول</h2>} />
+
+      {/* الصفحة غير موجودة */}
+      <Route path="/*" element={<h1>404</h1>} />
+
+      </Routes>
+    </BrowserRouter>
     </div>
   );
 }
