@@ -73,7 +73,7 @@ const SalonSidebar = ({ open, onClose }) => {
     { text: 'لوحة التحكم', icon: <DashboardIcon />, path: '/admin/dashboard' },
     { text: 'الحجوزات', icon: <AppointmentsIcon />, path: '/appointments' },
     { text: 'العملاء', icon: <ClientsIcon />, path: '/clients' },
-    { text: 'الخدمات', icon: <ServicesIcon />, path: '/services' },
+    { text: 'الخدمات', icon: <ServicesIcon />, path: '/admin/services' },
     { text: 'طاقم العمل', icon: <ClientsIcon />, path: '/admin/staff' },
     { text: 'المستخدمون', icon: <ClientsIcon />, path: '/admin/users' },
     { text: 'التقارير', icon: <ReportsIcon />, path: '/reports' },

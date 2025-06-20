@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchStaff, deleteStaff } from './staffThunks';
-import StaffForm from './StaffForm';
+import { fetchService, deleteService } from './serviceThunks';
+import ServiceForm from './ServiceForm';
 import {
   Box,
   Typography,
@@ -21,8 +21,6 @@ import {
   useTheme,
   useMediaQuery,
   CssBaseline,
-  Drawer,
-  Toolbar,
   styled
 } from '@mui/material';
 import { Delete, Edit, Add } from '@mui/icons-material';
@@ -58,11 +56,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function StaffList() {
+export default function ServiceList() {
   const dispatch = useDispatch();
-  const { list: staff, loading } = useSelector((state) => state.staff);
+  const { list: service, loading } = useSelector((state) => state.service);
   const [openForm, setOpenForm] = useState(false);
-  const [currentStaff, setcurrentStaff] = useState(null);
+  const [currentService, setcurrentService] = useState(null);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   
@@ -73,7 +71,7 @@ export default function StaffList() {
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
 
   useEffect(() => {
-    dispatch(fetchStaff());
+    dispatch(fetchService());
   }, [dispatch]);
 
   const handleDeleteConfirm = (id) => {
@@ -83,23 +81,23 @@ export default function StaffList() {
   };
 
   const handleDelete = () => {
-    dispatch(deleteStaff(userToDelete));
+    dispatch(deleteService(userToDelete));
     setDeleteConfirmOpen(false);
   };
 
   const handleEdit = (user) => {
-    setcurrentStaff(user);
+    setcurrentService(user);
     setOpenForm(true);
   };
 
   const handleAdd = () => {
-    setcurrentStaff(null);
+    setcurrentService(null);
     setOpenForm(true);
   };
 
   const handleClose = () => {
     setOpenForm(false);
-    setcurrentStaff(null);
+    setcurrentService(null);
   };
 
   const handleDrawerToggle = () => {
@@ -141,7 +139,7 @@ export default function StaffList() {
           gap: 2
         }}>
           <Typography variant="h4" component="h1">
-            staff Management
+            service Management
           </Typography>
           <Button 
             variant="contained" 
@@ -149,7 +147,7 @@ export default function StaffList() {
             onClick={handleAdd}
             fullWidth={isMobile}
           >
-            Add Staff
+            Add Service
           </Button>
         </Box>
 
@@ -168,25 +166,21 @@ export default function StaffList() {
             <Table size={isMobile ? 'small' : 'medium'}>
               <TableHead>
                 <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>userId</TableCell>
-                  <TableCell>Full Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>speciality</TableCell>
-                  <TableCell>createdAt</TableCell>
+                  <TableCell>Id</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Duration</TableCell>
+                  <TableCell>Price</TableCell>
                   <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {staff.map((s) => (
+                {service.map((s) => (
                   
                   <TableRow key={s.id}>
                     <TableCell>{s.id}</TableCell>
-                    <TableCell>{s.userId}</TableCell>
-                    <TableCell>{s.fullName}</TableCell>
-                    <TableCell>{s.email}</TableCell>
-                    <TableCell>{s.speciality}</TableCell>
-                    <TableCell>{s.createdAt}</TableCell>
+                    <TableCell>{s.name}</TableCell>
+                    <TableCell>{s.duration}</TableCell>
+                    <TableCell>{s.price}</TableCell>
                     <TableCell align="center">
                       <IconButton 
                         color="primary" 
@@ -212,11 +206,11 @@ export default function StaffList() {
 
         <Dialog open={openForm} onClose={handleClose} maxWidth="sm" fullWidth>
           <DialogTitle>
-            {currentStaff ? 'Edit Staff' : 'Add New Staff'}
+            {currentService ? 'Edit Service' : 'Add New Service'}
           </DialogTitle>
           <DialogContent>
-            <StaffForm 
-              currentStaff={currentStaff} 
+            <ServiceForm 
+              currentService={currentService} 
               onClose={handleClose} 
             />
           </DialogContent>
@@ -227,7 +221,7 @@ export default function StaffList() {
           onClose={() => setDeleteConfirmOpen(false)}
           onConfirm={handleDelete}
           title="Confirm Delete"
-          content="Are you sure you want to delete this Staff? This action cannot be undone."
+          content="Are you sure you want to delete this Service? This action cannot be undone."
           confirmText="Delete"
           cancelText="Cancel"
         />

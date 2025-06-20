@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 import StaffListPage from './features/staff/StaffList';
 import UserList from './features/user/UserList';
+import ServiceList from 'features/service/ServiceList';
 
 
 function App() {
@@ -54,6 +55,15 @@ function App() {
           element={
             <ProtectedRoute role="Admin">
               <UserList/>
+            </ProtectedRoute>
+          }
+        />
+
+                <Route
+          path="services"
+          element={
+            <ProtectedRoute role="Admin">
+              <ServiceList/>
             </ProtectedRoute>
           }
         />
