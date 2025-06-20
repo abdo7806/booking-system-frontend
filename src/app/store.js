@@ -3,13 +3,15 @@ import authReducer from '../features/auth/authSlice';
 import staffReducer from '../features/staff/staffSlice';
 import userReducer from '../features/user/userSlice';
 import serviceReducer from '../features/service/serviceSlice';
+import availabilityReducer from '../features/availability/availabilitySlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     staff: staffReducer,
     users: userReducer,
-    service: serviceReducer
+    service: serviceReducer,
+    availability: availabilityReducer,
 
   },
 });

@@ -9,26 +9,28 @@ const API = axios.create({
 });
 
 export const fetchAvailabilities = async () => {
-  const res = await axios.get(`${API}/availabilities`);
+
+  const res = await API.get(`/Availability`);
+	console.log("data", res.data)
   return res.data;
 };
 
 export const getAvailabilityById = async (id) => {
-  const res = await axios.get(`${API}/availabilities/${id}`);
+  const res = await API.get(`/Availability/${id}`);
   return res.data;
 };
 
 export const createAvailability = async (data) => {
-  const res = await axios.post(`${API}/availabilities`, data);
+  const res = await API.post(`/Availability`, data);
   return res.data;
 };
 
 export const updateAvailability = async (id, data) => {
-  const res = await axios.put(`${API}/availabilities/${id}`, data);
+  const res = await API.put(`/Availability/${id}`, data);
   return res.data;
 };
 
 export const deleteAvailability = async (id) => {
-  const res = await axios.delete(`${API}/availabilities/${id}`);
+  const res = await API.delete(`/Availability/${id}`);
   return res.data;
 };
