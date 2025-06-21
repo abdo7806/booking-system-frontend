@@ -34,3 +34,5 @@ export const deleteAvailability = async (id) => {
   const res = await API.delete(`/Availability/${id}`);
   return res.data;
 };
+
+

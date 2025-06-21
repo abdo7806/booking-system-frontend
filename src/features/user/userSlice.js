@@ -1,7 +1,7 @@
 
 
 import { createSlice } from '@reduxjs/toolkit';
-import { getAllUsers, addUser, editUser, removeUser } from './userThunks';
+import { getAllUsers, addUser, editUser, removeUser, getAllClients } from './userThunks';
 
 const userSlice = createSlice({
   name: 'users',
@@ -17,8 +17,19 @@ const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(getAllUsers.fulfilled, (state, action) => {
+        
         state.loading = false;
         state.list = action.payload;
+        console.log("status",state)
+      })
+        .addCase(getAllClients.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllClients.fulfilled, (state, action) => {
+        
+        state.loading = false;
+        state.list = action.payload;
+        console.log("status",state)
       })
       .addCase(addUser.fulfilled, (state, action) => {
         state.list.push(action.payload);

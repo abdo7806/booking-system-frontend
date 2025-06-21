@@ -12,6 +12,8 @@ import StaffListPage from './features/staff/StaffList';
 import UserList from './features/user/UserList';
 import ServiceList from './features/service/ServiceList';
 import AvailabilityList from './features/availability/AvailabilityList';
+import AppointmentList from './features/appointments/AppointmentList';
+import ClientList from './features/client/ClientList';
 
 
 function App() {
@@ -74,6 +76,22 @@ function App() {
           element={
             <ProtectedRoute role="Admin">
               <AvailabilityList/>
+            </ProtectedRoute>
+          }
+        />
+          <Route
+          path="appointments"
+          element={
+            <ProtectedRoute role="Admin">
+              <AppointmentList/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="clients"
+          element={
+            <ProtectedRoute role="Admin">
+              <ClientList/>
             </ProtectedRoute>
           }
         />

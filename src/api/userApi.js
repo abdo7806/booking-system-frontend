@@ -11,6 +11,11 @@ export const fetchUsers = async () => {
   const response = await API.get(`/users`);
   return response.data;
 };
+// ارجاع كل العملاء
+export const fetchClients = async () => {
+  const response = await API.get(`/Users/clients`);
+  return response.data;
+};
 
 export const getUserById = async (id) => {
   const response = await API.get(`/Users/${id}`);

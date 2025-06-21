@@ -4,6 +4,7 @@ import staffReducer from '../features/staff/staffSlice';
 import userReducer from '../features/user/userSlice';
 import serviceReducer from '../features/service/serviceSlice';
 import availabilityReducer from '../features/availability/availabilitySlice';
+import appointmentReducer from '../features/appointments/appointmentSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     users: userReducer,
     service: serviceReducer,
     availability: availabilityReducer,
+    appointments: appointmentReducer,
 
   },
 });

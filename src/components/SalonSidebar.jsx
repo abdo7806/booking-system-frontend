@@ -27,6 +27,7 @@ import {
 	
 } from '@mui/icons-material';
 
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 
 // routes
 import { useNavigate, Link } from "react-router-dom";
@@ -72,8 +73,8 @@ const SalonSidebar = ({ open, onClose }) => {
   const menuItems = [
     { text: 'لوحة التحكم', icon: <DashboardIcon />, path: '/admin/dashboard' },
     { text: 'الحجوزات', icon: <AppointmentsIcon />, path: '/admin/appointments' },
-    { text: 'اوقات التوفر', icon: <AppointmentsIcon />, path: '/admin/availability' },
-    { text: 'العملاء', icon: <ClientsIcon />, path: '/clients' },
+    { text: 'اوقات التوفر', icon: <WorkOutlineIcon />, path: '/admin/availability' },
+    { text: 'العملاء', icon: <ClientsIcon />, path: '/admin/clients' },
     { text: 'الخدمات', icon: <ServicesIcon />, path: '/admin/services' },
     { text: 'طاقم العمل', icon: <ClientsIcon />, path: '/admin/staff' },
     { text: 'المستخدمون', icon: <ClientsIcon />, path: '/admin/users' },
