@@ -16,13 +16,17 @@ import AppointmentList from './features/appointments/AppointmentList';
 import ClientList from './features/client/ClientList';
 
 
+// context
+import { AuthProvider } from './contexts/AuthContext'; // تأكد من المسار الصحيح
+
+
 function App() {
  
 
 
   return (
     <div className="App" dir="rtl">
-
+      <AuthProvider>
           <BrowserRouter>
  
       <Routes>
@@ -108,8 +112,9 @@ function App() {
       {/* الصفحة غير موجودة */}
       <Route path="/*" element={<h1>404</h1>} />
 
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
     </div>
   );
 }

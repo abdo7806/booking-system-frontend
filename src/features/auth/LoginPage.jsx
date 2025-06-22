@@ -19,6 +19,7 @@ import {
   Fade
 } from '@mui/material';
 import { Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material';
+import { useAuth } from '../../contexts/AuthContext'; // تأكد من المسار الصحيح
 
 // Validation Schema
 const validationSchema = Yup.object({
@@ -33,6 +34,9 @@ const validationSchema = Yup.object({
 export default function LoginPage({ email = "", password = "" }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+ const { login } = useAuth();
+
   const { loading, error, user } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -57,6 +61,8 @@ export default function LoginPage({ email = "", password = "" }) {
       } else {
         navigate("/"); // دور غير معروف
       }
+   
+      login(user);
     }
   }, [user, navigate]);
 

@@ -1,6 +1,10 @@
 // src/features/auth/authSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 import { loginUser } from './authThunks';
+
+// context
+import { useAuth } from '../../contexts/AuthContext'; // تأكد من المسار الصحيح
+
 const initialState = {
   user: null,
   token: null,
@@ -31,7 +35,11 @@ const authSlice = createSlice({
         state.token = action.payload.token;
 				state.error = "تم التسجيل بنجاح"
       localStorage.setItem("token", action.payload.token);
-  
+      localStorage.setItem("user", JSON.stringify(state.user));
+
+      // const { login } = useAuth();
+
+          // login(action.payload.user); // تسجيل الدخول
 
 
      // localStorage.setItem("user", JSON.stringify(action.payload.user));
