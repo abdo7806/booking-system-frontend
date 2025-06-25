@@ -1,120 +1,98 @@
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// صفحات
 import LoginPage from './features/auth/LoginPage';
 import RegisterPage from './features/auth/RegisterPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
-import ProtectedRoute from "./components/ProtectedRoute";
-
-
 import StaffListPage from './features/staff/StaffList';
 import UserList from './features/user/UserList';
 import ServiceList from './features/service/ServiceList';
 import AvailabilityList from './features/availability/AvailabilityList';
 import AppointmentList from './features/appointments/AppointmentList';
 import ClientList from './features/client/ClientList';
+import ClientDashboard from './features/access_client/ClientDashboard';
+import CreateAppointment from './features/access_client/CreateAppointment';
+import MyAppointments from './features/access_client/MyAppointments';
+// مكونات
+import ProtectedRoute from "./components/ProtectedRoute";
 
-
-// context
-import { AuthProvider } from './contexts/AuthContext'; // تأكد من المسار الصحيح
-
+// التنقل
+import ClientNavbar from './components/ClientNavbar';
+// سياق المصادقة
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
- 
-
-
   return (
     <div className="App" dir="rtl">
       <AuthProvider>
-          <BrowserRouter>
- 
-      <Routes>
+        <BrowserRouter>
+          <Routes>
+            {/* صفحات عامة */}
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/unauthorized" element={<h2>غير مصرح لك بالدخول</h2>} />
 
-             {/* صفحات عامة */}
-      <Route path="/" element={<LoginPage />} />
+            {/* صفحات المشرف */}
+            <Route path="/admin/*" element={
+              <Routes>
+                <Route
+                  path="dashboard"
+                  element={<ProtectedRoute role="Admin"><AdminDashboardPage /></ProtectedRoute>}
+                />
+                <Route
+                  path="staff"
+                  element={<ProtectedRoute role="Admin"><StaffListPage /></ProtectedRoute>}
+                />
+                <Route
+                  path="users"
+                  element={<ProtectedRoute role="Admin"><UserList /></ProtectedRoute>}
+                />
+                <Route
+                  path="services"
+                  element={<ProtectedRoute role="Admin"><ServiceList /></ProtectedRoute>}
+                />
+                <Route
+                  path="availability"
+                  element={<ProtectedRoute role="Admin"><AvailabilityList /></ProtectedRoute>}
+                />
+                <Route
+                  path="appointments"
+                  element={<ProtectedRoute role="Admin"><AppointmentList /></ProtectedRoute>}
+                />
+                <Route
+                  path="clients"
+                  element={<ProtectedRoute role="Admin"><ClientList /></ProtectedRoute>}
+                />
+              </Routes>
+            } />
 
-<Route 
-  path="/admin/*" 
-  element={
-    <>
- 
-      <Routes>
-        <Route
-          path="dashboard"
-          element={
-            <ProtectedRoute role="Admin">
-              <AdminDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="staff"
-          element={
-            <ProtectedRoute role="Admin">
-              <StaffListPage />
-            </ProtectedRoute>
-          }
-        />
 
-       <Route
-          path="users"
-          element={
-            <ProtectedRoute role="Admin">
-              <UserList/>
-            </ProtectedRoute>
-          }
-        />
+          {/* مسارات العميل */}
+            <Route 
+              path="/client/*" 
+              element={
+                <>
+                  <ClientNavbar />
+                  <Routes>
+                    <Route path='dashboard' element={<ClientDashboard />} />
+                    <Route path="create-appointment" element={<CreateAppointment />} />
+                    <Route path="my-appointments" element={<MyAppointments/>} />
 
-          <Route
-          path="services"
-          element={
-            <ProtectedRoute role="Admin">
-              <ServiceList/>
-            </ProtectedRoute>
-          }
-        />
+                  </Routes>
+                </>
+              } 
+            />
 
-          <Route
-          path="availability"
-          element={
-            <ProtectedRoute role="Admin">
-              <AvailabilityList/>
-            </ProtectedRoute>
-          }
-        />
-          <Route
-          path="appointments"
-          element={
-            <ProtectedRoute role="Admin">
-              <AppointmentList/>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="clients"
-          element={
-            <ProtectedRoute role="Admin">
-              <ClientList/>
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </>
-  } 
-/>
+  
 
-        <Route path="/dashboard" element={<h1>Client Dashboard</h1>} />
-        <Route path="/register" element={<RegisterPage/>} />
-              {/* صفحة غير مصرح */}
-      <Route path="/unauthorized" element={<h2>غير مصرح لك بالدخول</h2>} />
-
-      {/* الصفحة غير موجودة */}
-      <Route path="/*" element={<h1>404</h1>} />
-
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+            {/* الصفحات غير الموجودة */}
+            <Route path="/*" element={<h1>404 - الصفحة غير موجودة</h1>} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </div>
   );
 }

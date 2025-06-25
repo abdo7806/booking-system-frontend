@@ -36,3 +36,10 @@ export const deleteAvailability = async (id) => {
 };
 
 
+// جلب الأوقات المتاحة لموظف وتاريخ معين
+export const fetchAvailableTimes = async (staffId, date) => {
+  const response = await API.get(`/Availability/times`, {
+    params: { staffId, date }
+  });
+  return response.data;
+};

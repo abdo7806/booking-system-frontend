@@ -1,9 +1,8 @@
 
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllAppointments, removeAppointment } from './appointmentThunks';
-import AppointmentForm from './AppointmentForm';
+import { getAppointmentByClient } from '../appointments/appointmentThunks';
+import AppointmentForm from '../appointments/AppointmentForm';
 
 import {
 	Box,
@@ -27,10 +26,13 @@ import {
 	styled
 } from '@mui/material';
 import { Delete, Edit, Add } from '@mui/icons-material';
-import SalonNavbar from '../../components/SalonNavbar';
-import SalonSidebar from '../../components/SalonSidebar';
 
 import { ConfirmDialog } from '../../components/ConfirmDialog';
+
+
+// Context
+import { useAuth } from '../../contexts/AuthContext';
+
 
 // التنسيق للصفحة الرئيسية مع الشريط الجانبي
 const MainContent = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -65,71 +67,47 @@ export default function AppointmentList() {
 	const { list: appointment, loading } = useSelector((state) => state.appointments);
 	const [openForm, setOpenForm] = useState(false);
 	const [currentAppointment, setcurrentAppointment] = useState(null);
-	const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
-	const [userToDelete, setUserToDelete] = useState(null);
-	
+
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 	const drawerWidth = 240;
 	
-	const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
+		const { user } = useAuth();
+	
 
 	useEffect(() => {
-		dispatch(getAllAppointments());
+		dispatch(getAppointmentByClient(user.id));
+		//console.log(appointment);
 	}, [dispatch]);
 
-	const handleDeleteConfirm = (id) => {
- 
-		setUserToDelete(id);
-		setDeleteConfirmOpen(true);
-	};
 
-	const handleDelete = () => {
-		dispatch(removeAppointment(userToDelete));
-		setDeleteConfirmOpen(false);
-	};
+
+
 
 	const handleEdit = (user) => {
 		setcurrentAppointment(user);
 		setOpenForm(true);
 	};
 
-	const handleAdd = () => {
-		setcurrentAppointment(null);
-		setOpenForm(true);
-	};
+
 
 	const handleClose = () => {
 		setOpenForm(false);
 		setcurrentAppointment(null);
 	};
 
-	const handleDrawerToggle = () => {
-		setSidebarOpen(!sidebarOpen);
-	};
+	
 
 
 	return (
 		<Box sx={{ display: 'flex' }}>
-			<CssBaseline />
-			<SalonNavbar 
-				onMenuClick={handleDrawerToggle} 
-				drawerWidth={drawerWidth}
-				sidebarOpen={sidebarOpen}
-			/>
-			
-			<SalonSidebar 
-				open={sidebarOpen} 
-				onClose={() => setSidebarOpen(false)}
-				drawerWidth={drawerWidth}
-			/>
 			
 			<MainContent 
-				open={sidebarOpen} 
+				open={!isMobile} 
 				drawerWidth={drawerWidth}
 				sx={{ 
 					p: isMobile ? 1 : 3,
-					width: `calc(100% - ${sidebarOpen ? drawerWidth : 0}px)`
+					width: `calc(100% - ${!isMobile ? drawerWidth : 0}px)`
 				}}
 			>
 				<DrawerHeader />
@@ -145,14 +123,7 @@ export default function AppointmentList() {
 					<Typography variant="h4" component="h1">
 						appointment Management
 					</Typography>
-					<Button 
-						variant="contained" 
-						startIcon={<Add />}
-						onClick={handleAdd}
-						fullWidth={isMobile}
-					>
-						Add Appointment
-					</Button>
+			
 				</Box>
 
 				{loading ? (
@@ -207,13 +178,8 @@ export default function AppointmentList() {
 											>
 												<Edit fontSize={isMobile ? 'small' : 'medium'} />
 											</IconButton>
-											<IconButton 
-												color="error" 
-												onClick={() => handleDeleteConfirm(s.id)}
-												size={isMobile ? 'small' : 'medium'}
-											>
-												<Delete fontSize={isMobile ? 'small' : 'medium'} />
-											</IconButton>
+										
+												
 										</TableCell>
 									</TableRow>
 								))}
@@ -234,15 +200,7 @@ export default function AppointmentList() {
 					</DialogContent>
 				</Dialog>
 
-				<ConfirmDialog
-					open={deleteConfirmOpen}
-					onClose={() => setDeleteConfirmOpen(false)}
-					onConfirm={handleDelete}
-					title="Confirm Delete"
-					content="Are you sure you want to delete this Appointment? This action cannot be undone."
-					confirmText="Delete"
-					cancelText="Cancel"
-				/>
+
 			</MainContent>
 		</Box>
 	);

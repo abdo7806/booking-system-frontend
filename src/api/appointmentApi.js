@@ -19,6 +19,13 @@ export const getAppointmentById = async (id) => {
   return res.data;
 };
 
+export const getAppointmentByClientId = async (clientId) => {
+  const res = await API.get(`/appointments/client/${clientId}`);
+
+
+  return res.data;
+};
+
 export const createAppointment = async (data) => {
 
   const res = await API.post(`/appointments/create`, data);

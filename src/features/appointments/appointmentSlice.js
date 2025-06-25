@@ -4,6 +4,7 @@ import {
   addAppointment,
   removeAppointment,
   changeAppointmentStatus,
+  getAppointmentByClient
 } from './appointmentThunks';
 
 const appointmentSlice = createSlice({
@@ -23,8 +24,16 @@ const appointmentSlice = createSlice({
         state.loading = false;
         state.list = action.payload;
       })
+            .addCase(getAppointmentByClient.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAppointmentByClient.fulfilled, (state, action) => {
+        state.loading = false;
+        state.list = action.payload;
+      })
       .addCase(addAppointment.fulfilled, (state, action) => {
         state.list.push(action.payload);
+
       })
       .addCase(removeAppointment.fulfilled, (state, action) => {
         state.list = state.list.filter(a => a.id !== action.meta.arg);

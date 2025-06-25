@@ -57,7 +57,7 @@ export default function LoginPage({ email = "", password = "" }) {
       if (user.role === "Admin") {
         navigate("/admin/dashboard");
       } else if (user.role === "Client") {
-        navigate("/dashboard");
+        navigate("/client/dashboard");
       } else {
         navigate("/"); // دور غير معروف
       }

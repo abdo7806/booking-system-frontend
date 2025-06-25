@@ -5,6 +5,7 @@ import {
   createAvailability,
   updateAvailability,
   deleteAvailability,
+  fetchAvailableTimes
 } from '../../api/availabilityApi';
 
 export const getAllAvailabilities = createAsyncThunk(
@@ -35,3 +36,16 @@ export const removeAvailability = createAsyncThunk(
 );
 
 
+
+// جلب الأوقات المتاحة لموظف وتاريخ معين
+
+export const getAvailableTimes = createAsyncThunk(
+  'appointments/getAvailableTimes',
+  async ({ staffId, date }, thunkAPI) => {
+    try {
+      return await fetchAvailableTimes(staffId, date);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || 'Error');
+    }
+  }
+);
